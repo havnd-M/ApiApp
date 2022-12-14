@@ -29,4 +29,12 @@ def index():
 
 @app.route('/drinks')
 def drinks():
-    return {"drink": "coca cola"}
+    drinkInfo = Drinks.query.all()
+
+    output = []
+
+    for Data in drinkInfo:
+        drink_data = {'name': Data.name, 'description': Data.description}
+        output.append(drink_data)
+
+    return {"drink": output}
