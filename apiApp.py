@@ -6,11 +6,11 @@ app = Flask(__name__)
 
 
 with app.app_context():
+    # within this block, current_app points to app.
+
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-    #app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db = SQLAlchemy(app)
-    # within this block, current_app points to app.
 
     class Drinks(db.Model):
         id = db.Column(db.Integer, primary_key=True)
