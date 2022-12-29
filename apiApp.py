@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, current_app
+from flask import Flask, current_app , request
 
 
 app = Flask(__name__)
@@ -38,3 +38,17 @@ def drinks():
         output.append(drink_data)
 
     return {"drink": output}
+    
+@app.route('/drinks/<id>')
+def get_drink(id):
+    drink = Drinks.query.get_or_404(id)
+    return {"name": drink.name, "description": drink.description}
+
+
+@app.route('/drinks/', method=['post'])
+def add_drink():
+    drinks = Drinks(name=request.json['name'],
+                    description=request.json['description'])
+    db.session.add(drinks)
+    db.session.commit()
+    return {'id': drinks.id}
