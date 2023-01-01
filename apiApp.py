@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, current_app , request
+from flask import Flask, current_app, request
 
 
 app = Flask(__name__)
@@ -38,7 +38,8 @@ def drinks():
         output.append(drink_data)
 
     return {"drink": output}
-    
+
+
 @app.route('/drinks/<id>')
 def get_drink(id):
     drink = Drinks.query.get_or_404(id)
@@ -52,3 +53,14 @@ def add_drink():
     db.session.add(drinks)
     db.session.commit()
     return {'id': drinks.id}
+
+
+# Delete data
+@app.route('/drinks/<id>', methods=['DELETE'])
+def delete_drink(id):
+    drink = Drinks.query.get(id)
+    if drink is None:
+        return {"error": "not found"}
+    db.session.delete(drink)
+    db.session.commit()
+    return {"message": "yeet!@"}
